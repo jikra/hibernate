@@ -1,5 +1,7 @@
 import jpa.base.Person;
 import jpa.base.PersonInfo;
+import jpa.base.PropHolder;
+import jpa.base.StringProperty;
 import org.junit.Test;
 
 /**
@@ -15,6 +17,22 @@ public class TestIt extends ConfigTest {
         person.setName("name");
 
         doInJpa(entityManager -> entityManager.persist(person));
+    }
+
+    @Test
+    public void test_polym() {
+
+        StringProperty stringProperty = new StringProperty();
+        stringProperty.setId(1L);
+        stringProperty.setKey("OS");
+        stringProperty.setValue("MAC");
+
+        PropHolder propHolder = new PropHolder();
+        propHolder.setId(1L);
+        propHolder.setProperty(stringProperty);
+
+        doInJpa(entityManager -> entityManager.persist(stringProperty));
+        doInJpa(entityManager -> entityManager.persist(propHolder));
     }
 
     @Test

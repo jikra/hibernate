@@ -4,10 +4,7 @@ import org.hibernate.annotations.Any;
 import org.hibernate.annotations.AnyMetaDef;
 import org.hibernate.annotations.MetaValue;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @AnyMetaDef(name = "propertyMeta", metaType = "string", idType = "long",
         metaValues = {
@@ -26,6 +23,7 @@ public class PropHolder {
             metaDef = "propertyMeta",
             metaColumn = @Column(name = "property_type")
     )
+    @JoinColumn(name = "property_id")
     private Property property;
 
     public Long getId() {
