@@ -14,14 +14,8 @@ public class ConfigTest {
     protected EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("PERSISTENCE");
     protected EntityManager entityManager;
 
-    @Before
-    public void init() {
-
-        entityManager = entityManagerFactory.createEntityManager();
-    }
-
     public void doInJpa(Consumer<EntityManager> action) {
-
+        entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 

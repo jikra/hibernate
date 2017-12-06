@@ -1,46 +1,25 @@
 package jpa.base;
 
-import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.Subselect;
+import org.hibernate.annotations.Synchronize;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  * @author jiricizek <jiri.cizek@cleverlance.com>
  */
 @Entity
-@Table(schema = "basic", name = "person")
-public class Person {
+@Subselect("Select p.id as id, p.name as name, p.email as email from basic.Person p")
+@Synchronize({"Person"})
+public class PersonInfo {
 
     @Id
     private Long id;
 
     private String name;
 
-    private Integer age;
-
     private String email;
-
-    public Integer getAge() {
-
-        return age;
-    }
-
-    public void setAge(Integer age) {
-
-        this.age = age;
-    }
-
-    public String getEmail() {
-
-        return email;
-    }
-
-    public void setEmail(String email) {
-
-        this.email = email;
-    }
 
     public Long getId() {
 
@@ -62,13 +41,22 @@ public class Person {
         this.name = name;
     }
 
+    public String getEmail() {
+
+        return email;
+    }
+
+    public void setEmail(String email) {
+
+        this.email = email;
+    }
+
     @Override
     public String toString() {
 
-        return "Person{" +
+        return "PersonInfo{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", age=" + age +
                 ", email='" + email + '\'' +
                 '}';
     }

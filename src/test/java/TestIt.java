@@ -1,4 +1,5 @@
 import jpa.base.Person;
+import jpa.base.PersonInfo;
 import org.junit.Test;
 
 /**
@@ -15,4 +16,26 @@ public class TestIt extends ConfigTest {
 
         doInJpa(entityManager -> entityManager.persist(person));
     }
+
+    @Test
+    public void test_subselect() {
+
+        Person person = new Person();
+        person.setId(11L);
+        person.setName("jikra");
+        person.setAge(30);
+        person.setEmail("cizek@cizek.com");
+
+        doInJpa(entityManager -> entityManager.persist(person));
+        doInJpa(entityManager -> {
+            Person loadedPerson = entityManager.find(Person.class, 11L);
+            System.out.println(loadedPerson);
+        });
+
+        doInJpa(entityManager -> {
+            PersonInfo personInfo = entityManager.find(PersonInfo.class, 11L);
+            System.out.println(personInfo);
+        });
+    }
+
 }
