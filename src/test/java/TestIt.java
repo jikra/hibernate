@@ -2,6 +2,7 @@ import jpa.base.Person;
 import jpa.base.PersonInfo;
 import jpa.base.PropHolder;
 import jpa.base.StringProperty;
+import jpa.identifier.PersonKey;
 import org.junit.Test;
 
 /**
@@ -54,6 +55,20 @@ public class TestIt extends ConfigTest {
             PersonInfo personInfo = entityManager.find(PersonInfo.class, 11L);
             System.out.println(personInfo);
         });
+    }
+
+    @Test
+    public void test_embededId() {
+
+        PersonKey personKey = new PersonKey();
+        personKey.setKey("JIK");
+        personKey.setLang("CZ");
+
+        jpa.identifier.Person person = new jpa.identifier.Person();
+        person.setName("jikra");
+        person.setPersonKey(personKey);
+
+        doInJpa(entityManager -> entityManager.persist(person));
     }
 
 }
