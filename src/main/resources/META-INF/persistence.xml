@@ -14,12 +14,25 @@
             <property name="javax.persistence.jdbc.user" value="postgres"/>
             <property name="javax.persistence.jdbc.password" value="postgres"/>
             <property name="hibernate.show_sql" value="true"/>
+            <!--<property name="hibernate.format_sql" value="true"/>-->
+            <!--<property name="hibernate.use_sql_comments" value="true"/>-->
             <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
-            <!--<property name="hibernate.hbm2ddl.auto" value="validate"/>-->
             <property name="hibernate.jdbc.time_zone" value="UTC"/>
             <property name="hibernate.globally_quoted_identifiers" value="true"/>
-            <!--hibernate.default_schema-->
-            <!--by default public-->
+
+            <property name="hibernate.cache.use_second_level_cache" value="true"/>
+            <property name="hibernate.cache.region.factory_class"
+                      value="org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory"/>
+            <!--<property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.EhCacheRegionFactory"/>-->
+
+            <property name="hibernate.cache.default_cache_concurrency_strategy" value="read-only"/>
+            <!--<property name="javax.persistence.sharedCache.mode" value="ALL"/>-->
+
+            <property name="hibernate.cache.use_query_cache" value="true"/>
+
+            <!--<property name="hibernate.generate_statistics" value="true"/>-->
+
+            <!--<property name="hibernate.jdbc.batch_size" value="10"/>-->
         </properties>
 
     </persistence-unit>
