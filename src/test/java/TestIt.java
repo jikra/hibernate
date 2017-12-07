@@ -8,6 +8,8 @@ import jpa.cache.Order;
 import jpa.cache.OrderC;
 import jpa.cache.PersonC;
 import jpa.cache.Wallet;
+import jpa.cache1.ChildEntity;
+import jpa.cache1.PersonCache;
 import jpa.context.Author;
 import jpa.context.Book;
 import jpa.context.DataCtx;
@@ -537,13 +539,73 @@ public class TestIt extends ConfigTest {
     @Test
     public void test_cache1() {
 
-        Order order = new Order();
+        jpa.cache1.Order order = new jpa.cache1.Order();
         order.setId(11L);
         order.setCustomerName("jikra");
 
         doInJpa(entityManager -> entityManager.persist(order));
 
         doInJpa(entityManager -> entityManager.find(jpa.cache1.Order.class, 11L));
+
+        order.setCustomerName("nova jikra");
+        doInJpa(entityManager -> entityManager.merge(order));
+
+        doInJpa(entityManager -> {
+            Cache cache = entityManager.getEntityManagerFactory().getCache();
+//            cache.evict(jpa.cache1.Order.class);
+            entityManager.find(jpa.cache1.Order.class, 11L);
+        });
+        doInJpa(entityManager -> entityManager.find(jpa.cache1.Order.class, 11L));
+    }
+
+    @Test
+    public void test_cache2() {
+
+        PersonCache personCache = new PersonCache();
+        personCache.setId(11L);
+
+        personCache.getData().add("jirka");
+        personCache.getData().add("jirka1");
+        personCache.getData().add("jirka2");
+
+        doInJpa(entityManager -> entityManager.persist(personCache));
+
+        doInJpa(entityManager -> {
+            PersonCache personCache1 = entityManager.find(PersonCache.class, 11L);
+            personCache1.getData().size();
+        });
+
+        doInJpa(entityManager -> {
+            PersonCache personCache1 = entityManager.find(PersonCache.class, 11L);
+            for (String s : personCache1.getData()) {
+                System.out.println(s);
+            }
+        });
+
+        ChildEntity childEntity = new ChildEntity();
+        childEntity.setId(21L);
+
+        doInJpa(entityManager -> entityManager.persist(childEntity));
+
+        personCache.getChilds().add(childEntity);
+
+        doInJpa(entityManager -> entityManager.merge(personCache));
+
+        System.out.println("___________");
+
+        doInJpa(entityManager -> {
+            PersonCache personCache1 = entityManager.find(PersonCache.class, 11L);
+            for (ChildEntity entity : personCache1.getChilds()) {
+                System.out.println(entity);
+            }
+        });
+        doInJpa(entityManager -> {
+            PersonCache personCache1 = entityManager.find(PersonCache.class, 11L);
+            for (ChildEntity entity : personCache1.getChilds()) {
+                System.out.println(entity);
+            }
+        });
+
     }
 }
 
